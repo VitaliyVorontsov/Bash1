@@ -1,0 +1,36 @@
+#!/bin/bash
+#PBS -N VY_re_ser_7d_2e9
+#PBS -l walltime=10:00:00,nodes=1:ppn=1
+#PBS -o o.sf2
+#PBS -e e.sf2
+time {
+PROG=s.out
+NEXT_S_OUT=o.sf2
+NEXT_S_ERR=e.sf2
+PROG_path=/home/grid/testbed/$USER/temp/Serial-to-Parallel--Monte-Carlo-Pi-master/$PROG
+cd ~
+ml icc
+ml impi
+cp $PROG_path $PROG
+cp $PROG_path $NEXT_S_OUT
+cp $PROG_path $NEXT_S_ERR
+chmod 777 $PROG
+pwd
+time ./$PROG
+mkdir -p /mnt/work/$USER
+cd /mnt/work/$USER
+cp $PROG_path $PROG
+cp $PROG_path $NEXT_S_OUT
+cp $PROG_path $NEXT_S_ERR
+chmod 777 $PROG
+pwd
+time ./$PROG
+mkdir -p /mnt/scratch/$USER
+cd /mnt/scratch/$USER
+cp $PROG_path $PROG
+cp $PROG_path $NEXT_S_OUT
+cp $PROG_path $NEXT_S_ERR
+chmod 777 $PROG
+pwd
+time ./$PROG
+}

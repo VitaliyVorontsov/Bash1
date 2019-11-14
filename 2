@@ -1,0 +1,26 @@
+#!/bin/bash
+ml icc
+ml impi
+icc serial.c -o s.out
+x1=sed '2!D' o.sf2
+x2=sed '4!D' o.sf2 
+x3=sed '6!D' o.sf2 
+#y=sed '14!D' e.sf1 | cut -c8-15|grep -Po ^'\d+'
+while [[ $x1 != "3.14159265" ]] && [[ $x2 != "3.14159265" ]] && [[ $x3 != "3.14159265" ]];
+do
+#y=$(($y+15))
+date
+qsub 1.serial.pbs
+#sleep $y
+sleep 100
+echo sed '14!D' e.sf2 | cut -c8-15|grep ^[0-9]*
+x1=sed '2!D' o.sf2 
+x2=sed '4!D' o.sf2 
+x3=sed '6!D' o.sf2 
+#y=sed '14!D' e.sf | cut -c8-15|grep -Po ^'\d+'
+echo "${x1}"
+echo "${x2}"
+echo "${x3}"
+echo ""
+done
+date
